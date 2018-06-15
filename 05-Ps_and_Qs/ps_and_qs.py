@@ -55,6 +55,3 @@ if __name__ == '__main__':
         print("D2: " + str(d2))
     else:
         print("Modinv failed")
-    
-
-
