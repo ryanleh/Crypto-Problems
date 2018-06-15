@@ -26,24 +26,34 @@ if __name__ == '__main__':
     pub2_pem = open('pub_key2.pem', 'br').read()
 
     pub1_rsa = serial.load_pem_public_key(pub1_pem, default_backend())
-    pub2_rsa = serial.load_pem_public_key(pub1_pem, default_backend())
+    pub2_rsa = serial.load_pem_public_key(pub2_pem, default_backend())
 
     n1 = pub1_rsa.public_numbers().n
     n2 = pub2_rsa.public_numbers().n
+
     e1 = pub1_rsa.public_numbers().e
-    gcd = math.gcd(n1, n2)
+    e2 = pub2_rsa.public_numbers().e
+    gcd = (math.gcd(n1, n2))
 
-    for i in range(2, int(gcd/2+1)):
-        if (gcd % i == 0):
-            print("GCD is not a prime")
-            sys.exit(1)
-    print("GCD is a prime, p1=p2=gcd. Continuing")
+    # Assuming gcd is prime for sake of problem
 
-    q1 = n1 / gcd
-    phi = (gcd - 1)(q1 - 1)
-    d1 = modinv(e1, phi)
-    print("D is: " + d1)
-    
+    q1 = n1 // gcd
+    q2 = n2 // gcd 
+
+    phi1 = (gcd - 1) * (q1 - 1)
+    phi2 = (gcd - 1) * (q2 - 1)
+
+    d1 = modinv(e1, phi1)
+    d2 = modinv(e2, phi2)
+    if d1 and d2:
+        print("N1: " + str(n1))
+        print("N2: " + str(n2))
+        print("E1: " + str(e1))
+        print("E2: " + str(e2))
+        print("D1: " + str(d1))
+        print("D2: " + str(d2))
+    else:
+        print("Modinv failed")
     
 
 
