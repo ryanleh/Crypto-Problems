@@ -22,29 +22,30 @@ def modinv(e, phi):
 
 
 if __name__ == '__main__':
+    # Open and serialize
     pub1_pem = open('pub_key1.pem', 'br').read()
     pub2_pem = open('pub_key2.pem', 'br').read()
-
     pub1_rsa = serial.load_pem_public_key(pub1_pem, default_backend())
     pub2_rsa = serial.load_pem_public_key(pub2_pem, default_backend())
 
+    # Pull public numbers
     n1 = pub1_rsa.public_numbers().n
     n2 = pub2_rsa.public_numbers().n
-
     e1 = pub1_rsa.public_numbers().e
     e2 = pub2_rsa.public_numbers().e
+
+    # Calculate gcd - assume it's prime for sake of problem so gcd=p
     gcd = (math.gcd(n1, n2))
-
-    # Assuming gcd is prime for sake of problem
-
+    
+    # Use corresponding q and phi to find modular multiplicative
+    # inverse of e
     q1 = n1 // gcd
     q2 = n2 // gcd 
-
     phi1 = (gcd - 1) * (q1 - 1)
     phi2 = (gcd - 1) * (q2 - 1)
-
     d1 = modinv(e1, phi1)
     d2 = modinv(e2, phi2)
+
     if d1 and d2:
         print("N1: " + str(n1))
         print("N2: " + str(n2))
