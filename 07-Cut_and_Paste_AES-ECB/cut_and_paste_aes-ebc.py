@@ -14,20 +14,4 @@ if __name__ == '__main__':
     ctext_b2 = str_to_block(c2, 32)[0]
     ctext_b3 = str_to_block(c3, 32)[1]
     ctext = ctext_b1 + ctext_b2 + ctext_b3
-    print('0x' + ctext)
-
-    # Just going to find the key for fun
-    m1_0 = str_to_block(m1, 16)[0]
-    c1_0 = str_to_block(c1, 32)[0]
-    m1_0 = [ord(c) for c in m1_0]
-    c1_0 = str_to_block(c1_0, 2)
-    key = []
-    for m, c in zip(m1_0, c1_0):
-        key.append(format(m ^ int(c, 16), '02x'))
-    print(key)
-    c2_0 = str_to_block(c2, 32)[0]
-    c2_0 = str_to_block(c2_0, 2)
-    for c, k in zip(c2_0, key):
-        print(chr(int(c, 16) ^ int(k, 16)))
-    
-
+    print(ctext)
