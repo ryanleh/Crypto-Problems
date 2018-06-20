@@ -42,6 +42,7 @@ if __name__ == '__main__':
     for i in range(m):
         alpha_to_num[alphabet[i]] = i
         num_to_alpha[i] = alphabet[i]
+
     # Convert ciphertext to numbers
     ctext_num = [alpha_to_num[c] for c in ctext]
 
@@ -50,7 +51,6 @@ if __name__ == '__main__':
     for i in range(m):
         if gcd(i, m) == 1:
             pos_a.append(i)
-
 
     # For each a, brute force all possible b values, only print
     # decryptions which use valid punctuation
