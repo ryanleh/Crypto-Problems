@@ -11,3 +11,6 @@ def modinv(e, phi):
         (r_old, r_new) = (r_new, r_old - a * r_new)
     return d_old % phi if r_old == 1 else None
 
+def str_to_block(string, size):
+        return [string[i:i+size] for i in range(0, len(string), size)]
+
