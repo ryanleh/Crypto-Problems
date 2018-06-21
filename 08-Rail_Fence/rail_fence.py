@@ -1,5 +1,4 @@
-ctext = "WECRL TEERD SOEEF EAOCA IVDEN".replace(" ", "")
-rails = 3
+CTEXT = "ctext"
 
 
 def rebuild_fence(ctext, rails, length):
@@ -24,12 +23,14 @@ def rebuild_fence(ctext, rails, length):
 
 
 if __name__ == '__main__':
+    ctext = open(CTEXT, 'r').read().replace(' ', '')
     length = len(ctext)
-    fence = rebuild_fence(ctext, rails, length)
-    ptext = [None] * length
-    for rail in fence:
-        for i in range(len(rail)):
-            if rail[i]:
-                ptext[i] = rail[i]
-    print("".join(ptext))
-
+    # TODO: Fix all the things
+    for rails in range(3, 10):
+        fence = rebuild_fence(ctext, rails, length)
+        ptext = [None] * length
+        for rail in fence:
+            for i in range(len(rail)):
+                if rail[i]:
+                    ptext[i] = rail[i]
+        print("".join(ptext))
