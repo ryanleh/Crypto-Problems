@@ -2,18 +2,34 @@ ctext = "WECRL TEERD SOEEF EAOCA IVDEN".replace(" ", "")
 rails = 3
 
 
-def fence(lst, numrails):
-    """Credit: https://stackoverflow.com/questions/14519227/rail-fence-cipher-looking-for-a-better-solution"""
-    fence = [[None] * len(lst) for n in range(numrails)]
-    rails = list(range(numrails - 1)) + list(range(numrails - 1, 0, -1))
-    for n, x in enumerate(lst):
-        fence[rails[n % len(rails)]][n] = x
+def rebuild_fence(ctext, rails, length):
+    """Rebuilds the original fence format of the cipher"""
+    fence = [[None] * length for n in range(rails)]
+    spacing = [(2 * rails - 2 - 2 * i) for i in range(rails // 2 + 1)] + [0]
+    ctr, offset, rail = 0, 0, 0
+    for c in ctext:
+        if ctr + offset >= length:
+            rail += 1
+            offset += 1
+            ctr = 0
+        fence[rail][offset + ctr] = c
+        if spacing[rail] == 0:
+            spacing = spacing[::-1]
+        ctr += spacing[rail]
+        spacing = spacing[::-1]
     return fence
 
+
+
+
+
 if __name__ == '__main__':
-    fence = fence(ctext, rails))
-    ptext = [None] * len(ctext)
-    for lst in fence:
-	for c in lst:
-	    if c:
-		
+    length = len(ctext)
+    fence = rebuild_fence(ctext, rails, length)
+    ptext = [None] * length
+    for rail in fence:
+        for i in range(len(rail)):
+            if rail[i]:
+                ptext[i] = rail[i]
+    print("".join(ptext))
+
