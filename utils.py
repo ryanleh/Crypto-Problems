@@ -11,6 +11,29 @@ def modinv(e, phi):
         (r_old, r_new) = (r_new, r_old - a * r_new)
     return d_old % phi if r_old == 1 else None
 
+
 def str_to_block(string, size):
         return [string[i:i+size] for i in range(0, len(string), size)]
+
+def freq_analysis(alphabet, ctext):
+    """Returns a dictionary containing various letter frequencies.  Doesn't
+    consider any characters not in the alphabet"""
+    freqs = {}
+    total = len(ctext)
+    for char in alphabet:
+        freqs[char] = 0
+    for char in ctext:
+        if char not in alphabet:
+            total -= 1
+            pass
+        else:
+            freqs[char] += 1
+    if total == 0:
+        print("ERROR: Ciphertext didn't contain any letters from the alphabet")
+    else:
+        if total < len(ctext):
+            print("WARNING: Some letters were excluded from analysis")
+        for char in freqs:
+            freqs[char] = float(freqs[char]) / total * 100
+        return freqs
 

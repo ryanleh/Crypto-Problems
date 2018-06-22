@@ -26,11 +26,12 @@ def rebuild_fence(ctext, rails, length):
 if __name__ == '__main__':
     ctext = open(CTEXT, 'r').read().replace(' ', '').strip()
     length = len(ctext)
+    ptexts = []
     for rails in range(2, 20):
+        # Rebuild fence, derive ptext, order by freq analysis
         fence = rebuild_fence(ctext, rails, length)
         ptext = [None] * length
         for rail in fence:
             for i in range(len(rail)):
                 if rail[i]:
                     ptext[i] = rail[i]
-        print("".join(ptext))
