@@ -28,22 +28,26 @@ def freq_analysis(ctext, alphabet=std_english_freqs.keys()):
     """Returns a dictionary containing various letter frequencies.  Doesn't
     consider any characters not in the alphabet"""
     freqs = {}
+    excluded = []
     total = len(ctext)
     for char in alphabet:
-        freqs[char] = 0
+        freqs[char] = 0.0
     for char in ctext:
         if char not in alphabet:
             total -= 1
+            if char not in excluded:
+                excluded.append(char)
         else:
             freqs[char] += 1
     if total == 0:
         print("ERROR: Ciphertext didn't contain any letters from the alphabet")
     else:
         if total < len(ctext):
-            print("WARNING: Some letters were excluded from analysis")
+            print("WARNING: Letters {} were excluded from analysis".format(
+                  ",".join([char for char in excluded])))
         for char in freqs:
             freqs[char] = float(freqs[char]) / total * 100
-        return freqs.orderl
+        return freqs
 
 
 def freq_weight(obs_freqs, exp_freqs=std_english_freqs):
