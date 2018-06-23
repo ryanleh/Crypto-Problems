@@ -43,7 +43,7 @@ def freq_analysis(ctext, alphabet=std_english_freqs.keys()):
             print("WARNING: Some letters were excluded from analysis")
         for char in freqs:
             freqs[char] = float(freqs[char]) / total * 100
-        return freqs
+        return freqs.orderl
 
 
 def freq_weight(obs_freqs, exp_freqs=std_english_freqs):
