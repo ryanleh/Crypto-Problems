@@ -1,2 +1,2 @@
 # Crypto-Problems
-Solving applied cryptography problems from https://id0-rsa.pub/
+Solutions to applied cryptography problems from https://id0-rsa.pub/
