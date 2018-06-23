@@ -1,21 +1,3 @@
-def modinv(e, phi):
-    """Uses the extended Euclidean Algorithm to calculate
-    the multiplicative inverse of e modulo phi.
-    Credit: https://crypto.stackexchange.com/questions/5889/calculating-rsa-
-    private-exponent-when-given-public-exponent-and-the-modulus-fact"""
-    d_old = 0; r_old = phi
-    d_new = 1; r_new = e
-    while r_new > 0:
-        a = r_old // r_new
-        (d_old, d_new) = (d_new, d_old - a * d_new)
-        (r_old, r_new) = (r_new, r_old - a * r_new)
-    return d_old % phi if r_old == 1 else None
-
-
-def str_to_block(string, size):
-        return [string[i:i+size] for i in range(0, len(string), size)]
-
-
 mono_freqs = {'e': 12.70, 't': 9.06, 'a': 8.17, 'o': 7.51, 'i': 6.97,
                   'n': 6.75, 's': 6.33, 'h': 6.09, 'r': 5.99, 'd': 4.25,
                   'l': 4.03, 'c': 2.78, 'u': 2.76, 'm': 2.41, 'w': 2.36,
@@ -36,36 +18,49 @@ tri_freqs = {'the': 1.81, 'ere': 0.31, 'hes': 0.24, 'and': 0.73, 'tio': 0.31,
              'sth': 0.21, 'tha': 0.33, 'ate': 0.25, 'oth': 0.21, 'nth': 0.33,
              'all': 0.25, 'res': 0.21, 'int': 0.32, 'eth': 0.24, 'ont': 0.2}
 
-def freq_analysis(ctext, alphabet):
-    """Returns a dictionary containing various letter frequencies.  Doesn't
-    consider any characters not in the alphabet"""
+
+def modinv(e, phi):
+    """Uses the extended Euclidean Algorithm to calculate
+    the multiplicative inverse of e modulo phi.
+    Credit: https://crypto.stackexchange.com/questions/5889/calculating-rsa-
+    private-exponent-when-given-public-exponent-and-the-modulus-fact"""
+    d_old = 0; r_old = phi
+    d_new = 1; r_new = e
+    while r_new > 0:
+        a = r_old // r_new
+        (d_old, d_new) = (d_new, d_old - a * d_new)
+        (r_old, r_new) = (r_new, r_old - a * r_new)
+    return d_old % phi if r_old == 1 else None
+
+
+def str_to_block(string, size):
+    """Given a string, splits string into blocks of length size"""
+        return [string[i:i+size] for i in range(0, len(string), size)]
+
+
+def freq_analysis(ctext, tokens, length):
+    """Returns a dictionary containing various token frequencies.  Keep in
+    mind that lots of tokens outside the provided list may mess up analysis (ie.
+    bigram analysis w/ spaces)"""
     freqs = {}
-    excluded = []
-    total = len(ctext)
-    for char in alphabet:
-        freqs[char] = 0.0
-    for char in ctext:
-        if char not in alphabet:
-            total -= 1
-            if char not in excluded:
-                excluded.append(char)
-        else:
-            freqs[char] += 1
-    if total == 0:
-        print("ERROR: Ciphertext didn't contain any letters from the alphabet")
-    else:
-        if total < len(ctext):
-            print("WARNING: Letters {} were excluded from analysis".format(
-                  ",".join([char for char in excluded])))
-        for char in freqs:
-            freqs[char] = float(freqs[char]) / total * 100
-        return freqs
+    total = len(ctext) // length
+    for token in tokens:
+        freqs[token] = 0.0
+    for token in [ctext[i:i+length] for i in range(total)]:
+        if token in tokens:
+            freqs[token] += 1
+    for token in freqs:
+        freqs[token] = float(freqs[token]) / total * 100
+    return freqs
 
 
 def freq_weight(obs_freqs, exp_freqs):
     """Statistical weighing for observered character frequencies using
     chi-squared testing https://en.wikipedia.org/wiki/Chi-squared_test"""
     weight = 0
-    for char in obs_freqs:
-        weight += (exp_freqs[char] - obs_freqs[char]) ** 2 / exp_freqs[char]
+    for token in obs_freqs:
+        if token not in exp_freqs:
+            print("ERROR: Different token lists")
+            return 0.0
+        weight += (exp_freqs[token] - obs_freqs[token]) ** 2 / exp_freqs[token]
     return weight
