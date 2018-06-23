@@ -36,7 +36,7 @@ tri_freqs = {'the': 1.81, 'ere': 0.31, 'hes': 0.24, 'and': 0.73, 'tio': 0.31,
              'sth': 0.21, 'tha': 0.33, 'ate': 0.25, 'oth': 0.21, 'nth': 0.33,
              'all': 0.25, 'res': 0.21, 'int': 0.32, 'eth': 0.24, 'ont': 0.2}
 
-def freq_analysis(ctext, alphabet=std_english_freqs.keys()):
+def freq_analysis(ctext, alphabet):
     """Returns a dictionary containing various letter frequencies.  Doesn't
     consider any characters not in the alphabet"""
     freqs = {}
@@ -62,7 +62,7 @@ def freq_analysis(ctext, alphabet=std_english_freqs.keys()):
         return freqs
 
 
-def freq_weight(obs_freqs, exp_freqs=std_english_freqs):
+def freq_weight(obs_freqs, exp_freqs):
     """Statistical weighing for observered character frequencies using
     chi-squared testing https://en.wikipedia.org/wiki/Chi-squared_test"""
     weight = 0
