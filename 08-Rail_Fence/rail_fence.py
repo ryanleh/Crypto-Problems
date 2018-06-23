@@ -1,11 +1,11 @@
 from math import ceil
+from utils import std_english_freqs, freq_analysis, freq_weight
 
 CTEXT = "ctext"
 
 
 def rebuild_fence(ctext, rails, length):
     """Rebuilds the original fence format of the cipher"""
-    print(rails)
     fence = [[None] * length for n in range(rails)]
     spacing = [2 + 2*i for i in reversed(range(rails-1))] + [0]
     ctr, offset, rail = 0, 0, 0
@@ -35,3 +35,12 @@ if __name__ == '__main__':
             for i in range(len(rail)):
                 if rail[i]:
                     ptext[i] = rail[i]
+        ptexts.append("".join(c for c in ptext))
+
+    alph = {k.upper(): v for k, v in std_english_freqs.items()}
+    #ptexts = sorted(ptexts,
+    #                key=lambda x:freq_weight(freq_analysis(x, alph), alph))
+    for i in range(15):
+        print("Possible decryption #{}:".format(i))
+        print(ptexts[i]  + "\n\n")'''
+
