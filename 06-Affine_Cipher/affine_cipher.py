@@ -2,7 +2,7 @@
 # https://en.wikipedia.org/wiki/Affine_cipher
 
 from math import gcd
-from utils import modinv
+from crypto_utils import modinv
 from hashlib import md5
 
 ALPHABET = 'alphabet.txt'

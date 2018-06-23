@@ -35,7 +35,7 @@ def modinv(e, phi):
 
 def str_to_block(string, size):
     """Given a string, splits string into blocks of length size"""
-        return [string[i:i+size] for i in range(0, len(string), size)]
+    return [string[i:i+size] for i in range(0, len(string), size)]
 
 
 def freq_analysis(ctext, tokens, length):

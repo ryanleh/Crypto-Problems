@@ -1,4 +1,4 @@
-from utils import bi_freqs, freq_analysis, freq_weight
+from crypto_utils import bi_freqs, freq_analysis, freq_weight
 
 CTEXT = "ctext"
 
